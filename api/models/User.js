@@ -8,22 +8,22 @@ const User = sequelize.define('user', {
       autoIncrement: true,
       primaryKey: true,
   },
-  username: {
+  login: {
     type: Sequelize.STRING,
     allowNull: false,
     unique: {
       args: true,
-      msg: 'Username already exists',
+      msg: 'Login existant !',
     }
   },
   password: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  first_name: {
+  nom: {
     type: Sequelize.STRING
   },
-  last_name: {
+  prenom: {
     type: Sequelize.STRING
   },
   email: {
@@ -39,12 +39,21 @@ const User = sequelize.define('user', {
   phone: {
     type: Sequelize.STRING
   },
-  created_by : {
-    type: Sequelize.STRING
+  region: {
+    type: Sequelize.INTEGER,
+    allowNull: true
+  },
+  province: {
+    type: Sequelize.INTEGER,
+    allowNull: true
+  },
+  commune: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   },
   is_active : {
     type: Sequelize.BOOLEAN,
-    defaultValue: false
+    defaultValue: true
   },
 
   refresh_token: {
@@ -56,7 +65,9 @@ const User = sequelize.define('user', {
     },
     defaultValue: uuidv1(),
   },
-},{
+}, {
+    timestamps: false
+  },{
   scopes: {
       withoutPassword: {
           attributes: { exclude: ['password'] },

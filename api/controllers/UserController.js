@@ -23,10 +23,21 @@ const get = (req, res) => {
 
 const create = (req, res) => {
 
+  let reg = (req.body.region == "null") ? undefined : req.body.region;
+  let prov = (req.body.province == "null") ? undefined : req.body.province;
+  let com = (req.body.commune == "null") ? undefined : req.body.commune;
+
   User.create({
-    username: req.body.username,
+    login: req.body.login,
     password: req.body.password,
+    nom: req.body.nom,
+    prenom: req.body.prenom,
     role: req.body.role,
+    phone: req.body.phone,
+    email: req.body.email,
+    region: reg,
+    province: prov,
+    commune: com
    // organizationId: req.user.organization,
    // createdBy: req.user.id
   }).then((newUser) => {

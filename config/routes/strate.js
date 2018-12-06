@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.route('/commune')
   .get(strateCtrl.listbyCommune);
+router.route('/province')
+  .get(strateCtrl.listbyProvince);
+router.route('/region')
+  .get(strateCtrl.listbyRegion);
 router.route('/')
   .get(strateCtrl.list);
 

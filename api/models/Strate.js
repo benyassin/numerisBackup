@@ -21,9 +21,11 @@ const Strate = sequelize.define('strate', {
   id_commune: {
     type: Sequelize.INTEGER
   },
-  wkb_geometry: {
+  geometry: {
     type: Sequelize.GEOMETRY
   },
-},{tableName:'strate'});
+}, {
+    timestamps: false
+  },{tableName:'strate'});
 
 export default Strate

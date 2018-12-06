@@ -6,14 +6,14 @@ import User from '../models/User';
 const authenticate = (req, res, next) => {
   User.findOne({
     where: {
-      username: req.body.username,
+      login: req.body.login,
     },
   }).then((user) => {
     if (user && user.comparePassword(req.body.password)) {
       req.user = user;
       next();
     } else {
-      res.status(401).json({ error: 'Wrong username or password' });
+      res.status(401).json({ error: 'Wrong login or password' });
     }
   }).catch((e) => {
     res.status(500).json({ error: e.message });
@@ -25,8 +25,8 @@ const generateJWT = async (req, res, next) => {
   if (req.user) {
     const jwtPayload = {
       id: req.user.id,
-      username: req.user.username,
-      organization: req.user.organizationId
+      login: req.user.login
+      // organization: req.user.organizationId
     };
     const jwtSecret = config.jwt.jwtSecret;
     const jwtData = { expiresIn: config.jwt.jwtDuration };
@@ -43,7 +43,7 @@ const generateJWT = async (req, res, next) => {
 const refreshJWT = (req, res, next) => {
   User.findOne({
     where: {
-      username: req.body.username,
+      login: req.body.login,
       refresh_token: req.body.refresh_token,
     },
   }).then((user) => {
@@ -51,13 +51,14 @@ const refreshJWT = (req, res, next) => {
     req.user = user;
     next();
   }).catch(() => {
-    res.status(401).json({ error: 'Invalid username or refresh_token' });
+    res.status(401).json({ error: 'Invalid login or refresh_token' });
   });
 };
 
 const returnJWT = (req, res) => {
   if (req.user && req.token) {
-    res.status(201).json({ token: req.token, refresh_token: req.user.refresh_token });
+    // console.log(req.user);
+    res.status(201).json({ role: req.user.role, region: req.user.region, province: req.user.province, commune: req.user.commune, token: req.token, refresh_token: req.user.refresh_token });
   } else {
     res.status(401).json({ error: 'Unauthorized' });
   }
